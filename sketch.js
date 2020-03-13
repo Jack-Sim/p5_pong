@@ -16,6 +16,9 @@ var net = [];
 const net_lines = 12;
 const netSize = 20;
 
+var playerScore = 0;
+var compScore = 0;
+
 function setup() {
   createCanvas(640, 480);
   for(var i=0; i < net_lines; i++){
@@ -29,6 +32,7 @@ function draw() {
     stroke(255);
     line(width/2,net[i],width/2, net[i] + netSize);
   }
+  displayScore();
   moveBall();
   moveComp();
   movePlayer();
@@ -47,12 +51,14 @@ function moveBall(){
       speedX *= -1.05;
     } else{
       resetBall();
+      compScore += 1;
     }
   }else if(ballX >= width){
     if(ballY >= compY && ballY <= compY + paddleY){
       speedX *= -1.05;
     } else{
       resetBall();
+      playerScore += 1;
     }
   } // end of if statement to determine player hits the ball
   fill(255);
@@ -62,9 +68,9 @@ function moveBall(){
 
 function moveComp(){
   if(ballY < compY + 25){
-    compY -= 1.5;
+    compY -= 1.25;
   }else if(ballY > compY + paddleY - 25){
-    compY += 1.5;
+    compY += 1.25;
   }
   rect(compX, compY, paddleX, paddleY);
 }
@@ -79,4 +85,10 @@ function resetBall(){
   ballY = height / 2;
   speedX = 2;
   speedY = 1;
+}
+
+function displayScore(){
+  textSize(24);
+  text(playerScore, width * 3 / 8, 50);
+  text(compScore, width * 5 / 8 - 10, 50);
 }
